@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./src/index.ts",
     "01": "tsx watch ./src/01-process.ts",
-    "02": "tsx watch ./src/02-crypto.ts"
+    "02": "tsx watch ./src/02-crypto.ts",
+    "03": "tsx watch ./src/03-osModel.ts"
   },
   "keywords": [],
   "author": "",
