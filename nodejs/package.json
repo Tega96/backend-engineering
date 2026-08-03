@@ -8,7 +8,9 @@
     "01": "tsx watch ./src/01-process.ts",
     "02": "tsx watch ./src/02-crypto.ts",
     "03": "tsx watch ./src/03-osModel.ts",
-    "04": "tsx watch ./src/04-path-module.ts"
+    "04": "tsx watch ./src/04-path-module.ts",
+    "05": "tsx watch ./src/05-timers-module.ts",
+    "06": "tsx ./src/06-callback-promises-async-await"
   },
   "keywords": [],
   "author": "",
