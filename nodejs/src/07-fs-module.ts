@@ -7,12 +7,14 @@
 */
 
 import path from "node:path";
-import fs from 'node:fs'
-
+import fs, { stat } from 'node:fs'
+import fsPromises from 'node:fs/promises'
 
 
 const DEMO_FOLDER_PATH = path.join(process.cwd(), 'file-system', 'fs-demo');
 const SYNC_FILE_PATH = path.join(DEMO_FOLDER_PATH, 'sync-note.txt')
+const CALLBACK_FILE_PATH = path.join(DEMO_FOLDER_PATH, 'callback-note.txt')
+const PROMISE_FILE_PATH = path.join(DEMO_FOLDER_PATH, 'promise-note.txt')
 
 function ensureDemoFolderExist(): void {
     if (!fs.existsSync(DEMO_FOLDER_PATH)){
@@ -47,12 +49,89 @@ function runSyncExample(): FileResult {
     }
 }
 
+function runCallbackExample(): Promise<FileResult> {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(
+            CALLBACK_FILE_PATH,
+            "This is a day that the Lord has made",
+            'utf-8',
+            (writeError) => {
+                if (writeError) {
+                    reject(writeError)
+                    return;
+                }
+                
+                fs.appendFile(
+                    CALLBACK_FILE_PATH,
+                    "This is the message to be appended",
+                    'utf-8',
+                    (appendError) => {
+                        if (appendError) {
+                            reject(appendError)
+                            return
+                        }
+
+                        fs.readFile(CALLBACK_FILE_PATH, 'utf-8', (readError, content) => {
+                            if (readError) {
+                                reject(readError);
+                                return;
+                            }
+
+                            fs.stat(CALLBACK_FILE_PATH, (statError, stats) => {
+                                if (statError) {
+                                    reject(statError)
+                                    return;
+                                }
+                                resolve({
+                                    style: "callback",
+                                    fileName: path.basename(CALLBACK_FILE_PATH),
+                                    content,
+                                    sizeInBytes: stats.size,
+                                })
+                            })
+                        })
+                    }
+                )
+            }
+
+        )
+    })
+}
+
+
+// Promises
+async function runPromiseExample(): Promise<FileResult> {
+    await fsPromises.writeFile(
+        PROMISE_FILE_PATH,
+        "Content to write in the promise file path",
+        'utf-8'
+    )
+
+    await fsPromises.appendFile(
+        PROMISE_FILE_PATH,
+        " Content to be appended in promise path file",
+        'utf-8'
+    )
+
+    const content = await fsPromises.readFile(PROMISE_FILE_PATH, 'utf-8')
+    const stats = await fsPromises.stat(PROMISE_FILE_PATH);
+
+    return {
+        style: "Promises",
+        fileName: path.basename(PROMISE_FILE_PATH),
+        content,
+        sizeInBytes: stats.size
+    }
+}
+
 async function main(): Promise<void> {
     try {
         ensureDemoFolderExist()
         const syncResult = runSyncExample();
+        const callbackResult = await runCallbackExample()
+        const promiseResult = await runPromiseExample()
 
-        console.log([syncResult])
+        console.log([syncResult, callbackResult, promiseResult])
     } catch (error) {
         const message = error instanceof Error ? error.message : "unknown error"
         console.error("file system error", message)
