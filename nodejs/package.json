@@ -10,7 +10,8 @@
     "03": "tsx watch ./src/03-osModel.ts",
     "04": "tsx watch ./src/04-path-module.ts",
     "05": "tsx watch ./src/05-timers-module.ts",
-    "06": "tsx ./src/06-callback-promises-async-await"
+    "06": "tsx ./src/06-callback-promises-async-await",
+    "07": "tsx ./src/07-fs-module.ts"
   },
   "keywords": [],
   "author": "",
