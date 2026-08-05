@@ -9,7 +9,7 @@ type CreateUserBody = {
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     const method = req.method
-    const requestUrl = new URL(req.url ?? '/', `http:${req.headers.host}`)
+    const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host}`)
     const pathName = requestUrl.pathname
     res.setHeader("Content-Type", "text/plain")
 
@@ -42,7 +42,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 }
 
                 res.statusCode = 201;
-                res.end(`User created ${body.name} and {body.email}`) // In future, we'll store this in the database
+                res.end(`User created ${body.name} and ${body.email}`) // In future, we'll store this in the database
             } catch {
                 res.statusCode = 400
                 res.end("Invalid json body")
@@ -53,6 +53,8 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
             res.statusCode = 500;
             res.end("failed to read request body")
         })
+        
+        return
     }
 
     res.statusCode = 404
