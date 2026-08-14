@@ -28,16 +28,43 @@ function sendJson<T> (
     statusCode: number,
     body: ApiResponse<T>
 ): void {
-    
+    res.statusCode === statusCode;
+    res.setHeader("Content-Type", "application/json")
+    res.end(JSON.stringify(body))
 }
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     const method = req.method
     const requestUrl = new URL(req.url ?? '/', `http://{req.headers.host}`)
     const pathName = requestUrl.pathname;
-    const setHeader = {"Content-Type": "text/plain"}
 
-    if (method === "POST" && pathName === '/users') {
-
+    if (method === "GET" && pathName === '/') {
+        sendJson(res, 200, {
+            success: true,
+            message: "server is running",
+            data: {
+                routes: ["GET/users"]
+            },
+        })
+        return;
     }
+
+    if (method === "GET" && pathName === "/users") {
+        sendJson(res, 200, {
+            success: true,
+            message: "Users gotten",
+            data: users 
+        })
+        return;
+    }
+
+    sendJson<null>(res, 404, {
+        success: false,
+        message: "Route not found",
+        error: `${method} with pathname: ${pathName} not found`
+    })
+})
+
+server.listen(PORT, () => {
+    console.log(`Server listening on port:${PORT}`)
 })

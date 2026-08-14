@@ -62,5 +62,5 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
 })
 
 server.listen(PORT, () => {
-console.log(`Severer is listening on port ${PORT}`)
+    console.log(`Severer is listening on port ${PORT}`)
 })
