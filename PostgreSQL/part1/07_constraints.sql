@@ -6,9 +6,9 @@
  Database constraints ensures that whatever method you use, the data remains valid. 
  */
 
- DROP TABLE IF EXISTS basic.accounts;
+ DROP TABLE IF EXISTS basics.accounts;
 
- CREATE TABLE basic.accounts (
+ CREATE TABLE basics.accounts (
     id SERIAL PRIMARY KEY,
     full_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
@@ -18,6 +18,6 @@
  );
 
  INSERT INTO basics.accounts (full_name, email, age)
- VALUES ('Otega Otite', 'otega@email.com', 30)
+ VALUES ('Otega Otite', 'otega@email.com', 30);
 
- SELECT * FROM basic.accounts
+ SELECT * FROM basics.accounts;

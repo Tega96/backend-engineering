@@ -8,6 +8,9 @@ CREATE DATABASE postgresql_part1;
 
 
 /** 
+
+Stop repeating password frequently, write in terminal => export PGPASSWORD="password12345"
+
 Command to run the db: psql -U postgres -d postgres -f part1/01_first_database.sql
 psql - the command for running postgresql 
 -U postgres - we are logged in as our user: postgres
