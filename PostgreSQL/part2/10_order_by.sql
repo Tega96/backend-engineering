@@ -1,0 +1,10 @@
+
+
+SELECT name, price
+FROM products
+ORDER BY price ASC;
+
+
+SELECT name, category, price
+FROM products
+ORDER BY category ASC, price DESC;
