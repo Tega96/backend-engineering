@@ -23,7 +23,7 @@ CREATE TABLE posts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
     -- Every user will have a post. reference the user from the user table.
-    user_id UUID NOT NULL REFERENCES users(id),
+    user_id UUID NOT NULL REFERENCES users(id), -- Foreign key
     title TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'draft'
       CHECK (status IN ('draft', 'published')),
@@ -33,7 +33,7 @@ CREATE TABLE posts (
 CREATE TABLE comments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     -- All comments are directly linked to a post. therefore we reference the post's table
-    post_id UUID NOT NULL REFERENCES posts(id),
+    post_id UUID NOT NULL REFERENCES posts(id), -- Foreign key
     body TEXT NOT NULL
 );
 
@@ -44,8 +44,8 @@ CREATE TABLE tags (
 
 -- One post can have multiple tags and many tags can have only one post. 
 CREATE TABLE post_tags (
-    post_id UUID NOT NULL REFERENCES posts(id),
-    tag_id UUID NOT NULL REFERENCES tags(id),
+    post_id UUID NOT NULL REFERENCES posts(id), -- Foreign key
+    tag_id UUID NOT NULL REFERENCES tags(id), -- Foreign key
 
     -- one tag cannot be added twice: thus create a composite primary key. 
     PRIMARY KEY (post_id, tag_id)
